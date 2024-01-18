@@ -11,7 +11,7 @@ services:
       - TZ=America/New_York
       - JELLYFIN_PublishedServerUrl=https://jellyfin.drak3.io #optional
     volumes:
-      - /path/to/library:/config
+      - /docker/docker-compose/jellyfin/config:/config
       - /mnt/mobius/Video/TV-shows:/data/tvshows
       - /mnt/mobius/Video/Movies:/data/movies
       - /mnt/mobius/Music/library:/data/music
