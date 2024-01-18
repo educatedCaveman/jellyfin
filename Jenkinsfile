@@ -4,7 +4,7 @@ pipeline {
     environment {
         ANSIBLE_REPO = '/var/lib/jenkins/workspace/ansible_master'
         WEBHOOK = credentials('JENKINS_DISCORD')
-        PORTAINER_DEV_WEBHOOK = credentials('PORTAINER_WEBHOOK_DEV_JELLYFIN')
+        // PORTAINER_DEV_WEBHOOK = credentials('PORTAINER_WEBHOOK_DEV_JELLYFIN')
         PORTAINER_PRD_WEBHOOK = credentials('PORTAINER_WEBHOOK_PRD_JELLYFIN')
     }
 
@@ -13,25 +13,25 @@ pipeline {
     triggers { cron('0 3 * * 5') }
 
     stages {
-        // deploy code to lv-426.lab, when the branch is 'dev_test'
-        stage('deploy dev code') {
-            when { branch 'dev_test' }
-            steps {
-                // deploy configs to DEV
-                echo 'deploy docker config files (DEV)'
-                sh 'ansible-playbook ${ANSIBLE_REPO}/deploy/docker/deploy_docker_compose_dev.yml --extra-vars repo="jellyfin"'
-            }
-        }
-        // trigger portainer redeploy
-        // separated out so this only gets run if the ansible playbook doesn't fail
-        stage('redeploy portainer stack (DEV)') {
-            when { branch 'dev_test' }
-            steps {
-                // deploy configs to DEV
-                echo 'Redeploy DEV stack'
-                sh 'http post ${PORTAINER_DEV_WEBHOOK}'
-            }
-        }
+        // // deploy code to lv-426.lab, when the branch is 'dev_test'
+        // stage('deploy dev code') {
+        //     when { branch 'dev_test' }
+        //     steps {
+        //         // deploy configs to DEV
+        //         echo 'deploy docker config files (DEV)'
+        //         sh 'ansible-playbook ${ANSIBLE_REPO}/deploy/docker/deploy_docker_compose_dev.yml --extra-vars repo="jellyfin"'
+        //     }
+        // }
+        // // trigger portainer redeploy
+        // // separated out so this only gets run if the ansible playbook doesn't fail
+        // stage('redeploy portainer stack (DEV)') {
+        //     when { branch 'dev_test' }
+        //     steps {
+        //         // deploy configs to DEV
+        //         echo 'Redeploy DEV stack'
+        //         sh 'http post ${PORTAINER_DEV_WEBHOOK}'
+        //     }
+        // }
 
         // deploy code to sevastopol, when the branch is 'master'
         stage('deploy prd code') {
