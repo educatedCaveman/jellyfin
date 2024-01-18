@@ -1,0 +1,23 @@
+---
+# this comment is a hack
+version: '3'
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:10.8.13-1-ls241
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.drak3.io #optional
+    volumes:
+      - /path/to/library:/config
+      - /mnt/mobius/Video/TV-shows:/data/tvshows
+      - /mnt/mobius/Video/Movies:/data/movies
+      - /mnt/mobius/Music/library:/data/music
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+    restart: unless-stopped
